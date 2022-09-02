@@ -52,6 +52,14 @@ accounts:
     password: TOKEN
 ```
 
+## Notification
+
+Execution result will be delivered to environment variable `$NOTIFY_URL`, if given, by HTTP `POST`.
+
+```
+{"text": "MESSAGE..."}
+```
+
 ## Upstream
 
 https://git.guoyk.net/go-guoyk/gimir
