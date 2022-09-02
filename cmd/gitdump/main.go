@@ -67,6 +67,8 @@ func main() {
 			continue
 		}
 
+		tg.Add("FOUND: " + strconv.Itoa(len(repos)))
+
 		for _, repo := range repos {
 			tasks = append(tasks, gitdump.MirrorGitOptions{
 				Dir:      filepath.Join(opts.Dir, repo.SubDir),
