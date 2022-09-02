@@ -1,5 +1,7 @@
 # gitdump
 
+![workflow badge](https://github.com/guoyk93/gitdump/actions/workflows/go.yml/badge.svg) [![Go Reference](https://pkg.go.dev/badge/github.com/guoyk93/gitdump.svg)](https://pkg.go.dev/github.com/guoyk93/gitdump)
+
 A tool for dumping hosted git repositories in batch.
 
 ## Features
