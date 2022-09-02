@@ -24,6 +24,7 @@ A tool for dumping hosted git repositories in batch.
 
 ```yaml
 dir: repos
+concurrency: 3
 accounts:
   - vendor: github
     # username, github username
