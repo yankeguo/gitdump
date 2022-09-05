@@ -107,5 +107,7 @@ func MirrorGit(ctx context.Context, opts MirrorGitOptions) (err error) {
 		}
 	}
 
+	log.Println("done:", opts.URL)
+
 	return
 }

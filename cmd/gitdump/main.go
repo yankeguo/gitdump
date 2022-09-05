@@ -45,7 +45,7 @@ func main() {
 			name = fmt.Sprintf("%s (%s) / %s", account.Vendor, account.URL, account.Username)
 		}
 
-		tg := gracetrack.Group(ctx, fmt.Sprintf("account-%d", i)).SetName(name)
+		tg := gracetrack.Group(ctx, fmt.Sprintf("account-%d", i)).SetName("[" + name + "]")
 		log.Println("working on:", name)
 
 		hosting := gitdump.GetHosting(account.Vendor)
@@ -70,6 +70,8 @@ func main() {
 		tg.Add("FOUND: " + strconv.Itoa(len(repos)))
 
 		for _, repo := range repos {
+			log.Println("found:", repo.URL)
+
 			tasks = append(tasks, gitdump.MirrorGitOptions{
 				Dir:      filepath.Join(opts.Dir, repo.SubDir),
 				URL:      repo.URL,

@@ -16,3 +16,6 @@
 
 # GoLand
 .idea/
+
+# Binary
+/gitdump
