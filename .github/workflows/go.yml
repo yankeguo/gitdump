@@ -30,4 +30,6 @@ jobs:
         TEST_GITEA_URL: ${{ secrets.TEST_GITEA_URL }}
         TEST_GITEA_USERNAME: ${{ secrets.TEST_GITEA_USERNAME }}
         TEST_GITEA_PASSWORD: ${{ secrets.TEST_GITEA_PASSWORD }}
+        TEST_GITEE_USERNAME: ${{ secrets.TEST_GITEE_USERNAME }}
+        TEST_GITEE_PASSWORD: ${{ secrets.TEST_GITEE_PASSWORD }}
       run: go test -v ./...
