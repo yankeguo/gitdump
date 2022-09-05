@@ -2,14 +2,15 @@ name: Go
 
 on:
   push:
-    branches: [ "latest" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "latest" ]
+    branches: [ "main" ]
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
+    environment: test
     steps:
     - uses: actions/checkout@v3
 
@@ -22,4 +23,8 @@ jobs:
       run: go build -v ./...
 
     - name: Test
+      env:
+        TEST_CODING_URL: ${{ secrets.TEST_CODING_URL }}
+        TEST_CODING_USERNAME: ${{ secrets.TEST_CODING_USERNAME }}
+        TEST_CODING_PASSWORD: ${{ secrets.TEST_CODING_PASSWORD }}
       run: go test -v ./...
