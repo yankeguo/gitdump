@@ -32,4 +32,6 @@ jobs:
         TEST_GITEA_PASSWORD: ${{ secrets.TEST_GITEA_PASSWORD }}
         TEST_GITEE_USERNAME: ${{ secrets.TEST_GITEE_USERNAME }}
         TEST_GITEE_PASSWORD: ${{ secrets.TEST_GITEE_PASSWORD }}
+        TEST_GITHUB_USERNAME: ${{ secrets.TEST_GITHUB_USERNAME }}
+        TEST_GITHUB_PASSWORD: ${{ secrets.TEST_GITHUB_PASSWORD }}
       run: go test -v ./...
