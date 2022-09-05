@@ -6,7 +6,6 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/guoyk93/gitdump"
 	"github.com/guoyk93/grace"
-	"log"
 	"net/url"
 	"path/filepath"
 )
@@ -98,7 +97,7 @@ func (c *Client) GetProjectRepos(ctx context.Context, projectID int) (repositori
 
 type Hosting struct{}
 
-func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (output []gitdump.HostingRepo, err error) {
+func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []gitdump.HostingRepo, err error) {
 	defer grace.Guard(&err)
 
 	opts.MustURL()
@@ -127,9 +126,7 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (output 
 		repos := grace.Must(client.GetProjectRepos(ctx, project.ID))
 
 		for _, repo := range repos {
-			log.Println("found:", repo.HttpsUrl)
-
-			output = append(output, gitdump.HostingRepo{
+			out = append(out, gitdump.HostingRepo{
 				SubDir:   filepath.Join(hostname, project.Name, repo.Name),
 				URL:      repo.HttpsUrl,
 				Username: opts.Username,

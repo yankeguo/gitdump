@@ -38,7 +38,7 @@ type HostingRepo struct {
 }
 
 type Hosting interface {
-	List(ctx context.Context, opts HostingOptions) (repos []HostingRepo, err error)
+	List(ctx context.Context, opts HostingOptions) (out []HostingRepo, err error)
 }
 
 var (

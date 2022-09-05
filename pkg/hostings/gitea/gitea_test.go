@@ -1,4 +1,4 @@
-package coding
+package gitea
 
 import (
 	"context"
@@ -17,9 +17,9 @@ func TestHosting_List(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	h := Hosting{}
 	opts := gitdump.HostingOptions{
-		URL:      os.Getenv("TEST_CODING_URL"),
-		Username: os.Getenv("TEST_CODING_USERNAME"),
-		Password: os.Getenv("TEST_CODING_PASSWORD"),
+		URL:      os.Getenv("TEST_GITEA_URL"),
+		Username: os.Getenv("TEST_GITEA_USERNAME"),
+		Password: os.Getenv("TEST_GITEA_PASSWORD"),
 	}
 	u := grace.Must(url.Parse(opts.URL))
 	repos, err := h.List(context.Background(), opts)
