@@ -15,7 +15,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	_ "github.com/guoyk93/gitdump/hostings"
+	_ "github.com/guoyk93/gitdump/pkg/hostings"
 )
 
 func main() {

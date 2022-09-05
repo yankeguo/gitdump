@@ -2,6 +2,7 @@ package gitdump
 
 import (
 	"context"
+	"errors"
 	"sync"
 )
 
@@ -9,6 +10,24 @@ type HostingOptions struct {
 	URL      string
 	Username string
 	Password string
+}
+
+func (ho HostingOptions) MustURL() {
+	if ho.URL == "" {
+		panic(errors.New("missing argument 'URL'"))
+	}
+}
+
+func (ho HostingOptions) MustUsername() {
+	if ho.Username == "" {
+		panic(errors.New("missing argument 'Username'"))
+	}
+}
+
+func (ho HostingOptions) MustPassword() {
+	if ho.Password == "" {
+		panic(errors.New("missing argument 'Password'"))
+	}
 }
 
 type HostingRepo struct {
