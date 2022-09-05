@@ -22,11 +22,12 @@ func TestHosting_List(t *testing.T) {
 		Password: os.Getenv("TEST_CODING_PASSWORD"),
 	}
 	u := grace.Must(url.Parse(opts.URL))
+	tenant := strings.Split(u.Hostname(), ".")[0]
 	repos, err := h.List(context.Background(), opts)
 	require.NoError(t, err)
 	require.NotEmpty(t, repos)
 	repo := repos[rand.Intn(len(repos))]
-	require.True(t, strings.HasPrefix(repo.URL, opts.URL))
+	require.True(t, strings.HasPrefix(repo.URL, "https://e.coding.net/"+tenant))
 	require.True(t, strings.HasPrefix(repo.SubDir, u.Hostname()))
 	require.True(t, repo.Username == opts.Username)
 	require.True(t, repo.Password == opts.Password)
