@@ -12,6 +12,10 @@ A tool for dumping hosted git repositories to local in batch.
   * `gitea`
   * `coding`
 
+## 中文使用说明
+
+* [gitdump - 批量备份托管 Git 仓库](https://mp.weixin.qq.com/s?__biz=Mzg2ODIyNzg2Ng==&mid=2247483660&idx=1&sn=7096b013e5bab2896b9be90df12ac5cd&chksm=ceaecf79f9d9466f5ea56cf588622925c9b026749499ab40d6fe7281b2c60c4449a52b721c40#rd)
+
 ## Usage
 
 **Command**
