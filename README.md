@@ -66,13 +66,13 @@ Execution result will be delivered to environment variable `$NOTIFY_URL`, if giv
 
 ## Upstream
 
-https://git.guoyk.net/go-guoyk/gimir
+<https://git.guoyk.net/go-guoyk/gimir>
 
 Due to various reasons, codebase is detached from upstream.
 
 ## Donation
 
-![oss-donation-wx](https://www.guoyk.net/oss-donation-wx.png)
+View <https://guoyk93.github.io/#donation>
 
 ## Credits
 
