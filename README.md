@@ -72,7 +72,7 @@ Due to various reasons, codebase is detached from upstream.
 
 ## Donation
 
-View <https://guoyk93.github.io/#donation>
+View <https://guoyk.xyz/donation>
 
 ## Credits
 
