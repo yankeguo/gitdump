@@ -56,6 +56,16 @@ accounts:
     password: TOKEN
 ```
 
+## Container Image
+
+Check [GitHub Packages](https://github.com/guoyk93/gitdump/pkgs/container/gitdump) for available container images
+
+Check [Dockerfile](Dockerfile) for details
+
+By default, container image will execute `gitdump` every `6 hours`
+
+All you need to do is to mount `/data` for data persistence, and put a `config.yaml` at `/data/config.yaml`
+
 ## Notification
 
 Execution result will be delivered to environment variable `$NOTIFY_URL`, if given, by HTTP `POST`.
