@@ -4,14 +4,26 @@ WORKDIR /go/src/app
 ADD . .
 RUN go build -o /gitdump ./cmd/gitdump
 
-FROM ghcr.io/guoyk93/acicn/alpine:3.16
+FROM guoyk/minit:1.11.0 AS minit
 
-WORKDIR /data
+FROM alpine:3.18
 
+# install packages
+RUN apk add --no-cache tzdata ca-certificates git
+
+# install minit
+RUN mkdir -p /opt/bin
+ENV PATH "/opt/bin:${PATH}"
+COPY --from=minit /minit /opt/bin/minit
+ENV MINIT_LOG_DIR none
+ENTRYPOINT ["/opt/bin/minit"]
+
+# install gitdump
 COPY --from=builder /gitdump /gitdump
-
 ENV MINIT_MAIN          /gitdump
 ENV MINIT_MAIN_DIR      /data
 ENV MINIT_MAIN_NAME     gitdump
 ENV MINIT_MAIN_KIND     cron
 ENV MINIT_MAIN_CRON     "@every 6h"
+
+WORKDIR /data

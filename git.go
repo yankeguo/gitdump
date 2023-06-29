@@ -2,17 +2,10 @@ package gitdump
 
 import (
 	"context"
-	"github.com/go-git/go-git/v5"
-	gitconfig "github.com/go-git/go-git/v5/config"
-	"github.com/go-git/go-git/v5/plumbing/transport"
-	"github.com/go-git/go-git/v5/plumbing/transport/http"
 	"log"
+	"net/url"
 	"os"
-	"strings"
-)
-
-const (
-	Upstream = "upstream"
+	"os/exec"
 )
 
 type MirrorGitOptions struct {
@@ -45,64 +38,33 @@ func MirrorGit(ctx context.Context, opts MirrorGitOptions) (err error) {
 		if err = os.MkdirAll(opts.Dir, 0755); err != nil {
 			return
 		}
-	}
 
-	var repo *git.Repository
-
-	if repo, err = git.PlainOpen(opts.Dir); err != nil {
-		if err == git.ErrRepositoryNotExists {
-			err = nil
-		} else {
-			return
+		log.Println("initializing git repository:", opts.Dir)
+		{
+			cmd := exec.CommandContext(ctx, "git", "init", "--bare")
+			cmd.Dir = opts.Dir
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			if err = cmd.Run(); err != nil {
+				return
+			}
 		}
 	}
 
-	if repo == nil {
-		if repo, err = git.PlainInit(opts.Dir, true); err != nil {
-			return
-		}
-	}
-
-	if err = repo.DeleteRemote(Upstream); err != nil {
-		if err == git.ErrRemoteNotFound {
-			err = nil
-		} else {
-			return
-		}
-	}
-
-	if _, err = repo.CreateRemote(&gitconfig.RemoteConfig{
-		Name:  Upstream,
-		URLs:  []string{opts.URL},
-		Fetch: []gitconfig.RefSpec{"+refs/*:refs/*"},
-	}); err != nil {
+	// embed credentials in URL
+	var upstream *url.URL
+	if upstream, err = url.Parse(opts.URL); err != nil {
 		return
 	}
+	upstream.User = url.UserPassword(opts.Username, opts.Password)
 
-	defer func() {
-		_ = repo.DeleteRemote(Upstream)
-	}()
-
-	var auth transport.AuthMethod
-
-	if opts.Username != "" || opts.Password != "" {
-		auth = &http.BasicAuth{
-			Username: opts.Username,
-			Password: opts.Password,
-		}
-	}
-
-	if err = repo.FetchContext(ctx, &git.FetchOptions{
-		RemoteName: Upstream,
-		Auth:       auth,
-		Force:      true,
-		Tags:       git.AllTags,
-	}); err != nil {
-		if err == git.NoErrAlreadyUpToDate {
-			err = nil
-		} else if strings.Contains(err.Error(), "remote repository is empty") {
-			err = nil
-		} else {
+	// fetch all refs
+	{
+		cmd := exec.CommandContext(ctx, "git", "fetch", "-t", "-f", upstream.String(), "+refs/*:refs/*")
+		cmd.Dir = opts.Dir
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err = cmd.Run(); err != nil {
 			return
 		}
 	}
