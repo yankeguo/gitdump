@@ -11,6 +11,10 @@ FROM alpine:3.18
 # install packages
 RUN apk add --no-cache tzdata ca-certificates git
 
+# configure git
+RUN git config --global --add safe.directory '*' && \
+    git config --global init.defaultBranch main
+
 # install minit
 RUN mkdir -p /opt/bin
 ENV PATH "/opt/bin:${PATH}"
