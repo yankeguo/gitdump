@@ -3,6 +3,7 @@ package coding
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/go-resty/resty/v2"
 	"github.com/guoyk93/gitdump"
 	"github.com/guoyk93/grace"
@@ -71,6 +72,7 @@ func (c *Client) Invoke(ctx context.Context, action string, body grace.M) (resul
 func (c *Client) GetUserID(ctx context.Context) (userID int, err error) {
 	var result Result
 	if result, err = c.Invoke(ctx, "DescribeCodingCurrentUser", nil); err != nil {
+		err = fmt.Errorf("failed to get user id: %w", err)
 		return
 	}
 	userID = result.Response.User.ID
@@ -80,6 +82,7 @@ func (c *Client) GetUserID(ctx context.Context) (userID int, err error) {
 func (c *Client) GetUserProjectIDs(ctx context.Context, userID int) (projects []ResultProject, err error) {
 	var result Result
 	if result, err = c.Invoke(ctx, "DescribeUserProjects", grace.M{"UserId": userID}); err != nil {
+		err = fmt.Errorf("failed to get user %d projects: %w", userID, err)
 		return
 	}
 	projects = result.Response.ProjectList
@@ -89,6 +92,7 @@ func (c *Client) GetUserProjectIDs(ctx context.Context, userID int) (projects []
 func (c *Client) GetProjectRepos(ctx context.Context, projectID int) (repositories []ResultRepo, err error) {
 	var result Result
 	if result, err = c.Invoke(ctx, "DescribeProjectDepotInfoList", grace.M{"ProjectId": projectID}); err != nil {
+		err = fmt.Errorf("failed to get project %d repos: %w", projectID, err)
 		return
 	}
 	repositories = result.Response.DepotData.Depots
