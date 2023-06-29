@@ -7,6 +7,7 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/guoyk93/gitdump"
 	"github.com/guoyk93/grace"
+	"log"
 	"net/url"
 	"path/filepath"
 )
@@ -127,7 +128,12 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []g
 	projects := grace.Must(client.GetUserProjectIDs(ctx, userId))
 
 	for _, project := range projects {
-		repos := grace.Must(client.GetProjectRepos(ctx, project.ID))
+		repos, err1 := client.GetProjectRepos(ctx, project.ID)
+
+		if err1 != nil {
+			log.Printf("failed to get project %s repos: %v", project.Name, err1)
+			continue
+		}
 
 		for _, repo := range repos {
 			out = append(out, gitdump.HostingRepo{
