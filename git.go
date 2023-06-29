@@ -60,7 +60,7 @@ func MirrorGit(ctx context.Context, opts MirrorGitOptions) (err error) {
 
 	// fetch all refs
 	{
-		cmd := exec.CommandContext(ctx, "git", "fetch", "-t", "-f", upstream.String(), "+refs/*:refs/*")
+		cmd := exec.CommandContext(ctx, "git", "fetch", "-v", "-t", "-f", upstream.String(), "+refs/*:refs/*")
 		cmd.Dir = opts.Dir
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
