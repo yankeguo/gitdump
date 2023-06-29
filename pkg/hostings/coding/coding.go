@@ -131,7 +131,7 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []g
 		repos, err1 := client.GetProjectRepos(ctx, project.ID)
 
 		if err1 != nil {
-			log.Printf("failed to get project %s repos: %v", project.Name, err1)
+			log.Printf("failed to get project %s repos: %s", project.Name, err1.Error())
 			continue
 		}
 
