@@ -55,7 +55,9 @@ func MirrorGit(ctx context.Context, opts MirrorGitOptions) (err error) {
 
 	// embed username in URL
 	upstream := rg.Must(url.Parse(opts.URL))
-	upstream.User = url.User(opts.Username)
+	if upstream.User == nil {
+		upstream.User = url.User(opts.Username)
+	}
 
 	// create askPass script
 	urlDigest := md5.Sum([]byte(opts.URL))
