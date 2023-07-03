@@ -15,6 +15,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"sync/atomic"
 	"syscall"
 
 	_ "github.com/guoyk93/gitdump/pkg/hostings"
@@ -110,16 +111,21 @@ func main() {
 		}
 	}
 
-	var tasks []conc.Task
+	var (
+		tasks  []conc.Task
+		taskID int64
+	)
 
-	for _i, _taskOptions := range tasksOptions {
-		var (
-			i           = _i
-			taskOptions = _taskOptions
-		)
+	for _, _taskOptions := range tasksOptions {
+		var taskOptions = _taskOptions
 
 		tasks = append(tasks, conc.TaskFunc(func(ctx context.Context) error {
-			log.Printf("[%d/%d] working on: %s", i+1, len(tasksOptions), taskOptions.URL)
+			log.Printf(
+				"[%d/%d] working on: %s",
+				atomic.AddInt64(&taskID, 1),
+				len(tasksOptions),
+				taskOptions.URL,
+			)
 			return gitdump.MirrorGit(ctx, taskOptions)
 		}))
 	}
