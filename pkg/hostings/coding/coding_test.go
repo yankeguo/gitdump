@@ -3,7 +3,7 @@ package coding
 import (
 	"context"
 	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/grace"
+	"github.com/guoyk93/rg"
 	"github.com/stretchr/testify/require"
 	"math/rand"
 	"net/url"
@@ -21,7 +21,7 @@ func TestHosting_List(t *testing.T) {
 		Username: os.Getenv("TEST_CODING_USERNAME"),
 		Password: os.Getenv("TEST_CODING_PASSWORD"),
 	}
-	u := grace.Must(url.Parse(opts.URL))
+	u := rg.Must(url.Parse(opts.URL))
 	tenant := strings.Split(u.Hostname(), ".")[0]
 	repos, err := h.List(context.Background(), opts)
 	require.NoError(t, err)

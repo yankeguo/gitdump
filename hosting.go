@@ -42,18 +42,18 @@ type Hosting interface {
 }
 
 var (
-	hostings                 = map[string]Hosting{}
-	hostingsLock sync.Locker = &sync.Mutex{}
+	hostingRegistry                 = map[string]Hosting{}
+	hostingRegistryLock sync.Locker = &sync.Mutex{}
 )
 
 func SetHosting(vendor string, hosting Hosting) {
-	hostingsLock.Lock()
-	defer hostingsLock.Unlock()
-	hostings[vendor] = hosting
+	hostingRegistryLock.Lock()
+	defer hostingRegistryLock.Unlock()
+	hostingRegistry[vendor] = hosting
 }
 
 func GetHosting(vendor string) Hosting {
-	hostingsLock.Lock()
-	defer hostingsLock.Unlock()
-	return hostings[vendor]
+	hostingRegistryLock.Lock()
+	defer hostingRegistryLock.Unlock()
+	return hostingRegistry[vendor]
 }

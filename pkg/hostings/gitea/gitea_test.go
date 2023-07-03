@@ -3,7 +3,7 @@ package gitea
 import (
 	"context"
 	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/grace"
+	"github.com/guoyk93/rg"
 	"github.com/stretchr/testify/require"
 	"math/rand"
 	"net/url"
@@ -21,7 +21,7 @@ func TestHosting_List(t *testing.T) {
 		Username: os.Getenv("TEST_GITEA_USERNAME"),
 		Password: os.Getenv("TEST_GITEA_PASSWORD"),
 	}
-	u := grace.Must(url.Parse(opts.URL))
+	u := rg.Must(url.Parse(opts.URL))
 	repos, err := h.List(context.Background(), opts)
 	require.NoError(t, err)
 	require.NotEmpty(t, repos)

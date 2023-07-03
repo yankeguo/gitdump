@@ -6,11 +6,13 @@ import (
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/grace"
+	"github.com/guoyk93/rg"
 	"log"
 	"net/url"
 	"path/filepath"
 )
+
+type M = map[string]any
 
 func init() {
 	gitdump.SetHosting("coding", Hosting{})
@@ -46,9 +48,9 @@ type Client struct {
 	client *resty.Client
 }
 
-func (c *Client) Invoke(ctx context.Context, action string, body grace.M) (result Result, err error) {
+func (c *Client) Invoke(ctx context.Context, action string, body M) (result Result, err error) {
 	if body == nil {
-		body = grace.M{}
+		body = M{}
 	}
 	body["Action"] = action
 	var res *resty.Response
@@ -82,7 +84,7 @@ func (c *Client) GetUserID(ctx context.Context) (userID int, err error) {
 
 func (c *Client) GetUserProjectIDs(ctx context.Context, userID int) (projects []ResultProject, err error) {
 	var result Result
-	if result, err = c.Invoke(ctx, "DescribeUserProjects", grace.M{"UserId": userID}); err != nil {
+	if result, err = c.Invoke(ctx, "DescribeUserProjects", M{"UserId": userID}); err != nil {
 		err = fmt.Errorf("failed to get user %d projects: %w", userID, err)
 		return
 	}
@@ -92,7 +94,7 @@ func (c *Client) GetUserProjectIDs(ctx context.Context, userID int) (projects []
 
 func (c *Client) GetProjectRepos(ctx context.Context, projectID int) (repositories []ResultRepo, err error) {
 	var result Result
-	if result, err = c.Invoke(ctx, "DescribeProjectDepotInfoList", grace.M{"ProjectId": projectID}); err != nil {
+	if result, err = c.Invoke(ctx, "DescribeProjectDepotInfoList", M{"ProjectId": projectID}); err != nil {
 		err = fmt.Errorf("failed to get project %d repos: %w", projectID, err)
 		return
 	}
@@ -103,13 +105,13 @@ func (c *Client) GetProjectRepos(ctx context.Context, projectID int) (repositori
 type Hosting struct{}
 
 func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []gitdump.HostingRepo, err error) {
-	defer grace.Guard(&err)
+	defer rg.Guard(&err)
 
 	opts.MustURL()
 	opts.MustUsername()
 	opts.MustPassword()
 
-	u := grace.Must(url.Parse(opts.URL))
+	u := rg.Must(url.Parse(opts.URL))
 
 	var hostname string
 
@@ -123,9 +125,9 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []g
 			SetBasicAuth(opts.Username, opts.Password),
 	}
 
-	userId := grace.Must(client.GetUserID(ctx))
+	userId := rg.Must(client.GetUserID(ctx))
 
-	projects := grace.Must(client.GetUserProjectIDs(ctx, userId))
+	projects := rg.Must(client.GetUserProjectIDs(ctx, userId))
 
 	for _, project := range projects {
 		repos, err1 := client.GetProjectRepos(ctx, project.ID)

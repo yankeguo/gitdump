@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/google/go-github/v47/github"
 	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/grace"
+	"github.com/guoyk93/rg"
 	"golang.org/x/oauth2"
 	"path/filepath"
 	"strings"
@@ -17,7 +17,7 @@ func init() {
 type Hosting struct{}
 
 func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []gitdump.HostingRepo, err error) {
-	defer grace.Guard(&err)
+	defer rg.Guard(&err)
 
 	opts.MustUsername()
 	opts.MustPassword()
@@ -36,7 +36,7 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []g
 		for {
 			i++
 
-			data, _ := grace.Must2(client.Organizations.List(ctx, "", &github.ListOptions{
+			data, _ := rg.Must2(client.Organizations.List(ctx, "", &github.ListOptions{
 				Page:    i,
 				PerPage: 50,
 			}))
@@ -58,7 +58,7 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []g
 		for {
 			i++
 
-			data, _ := grace.Must2(client.Repositories.List(ctx, "", &github.RepositoryListOptions{
+			data, _ := rg.Must2(client.Repositories.List(ctx, "", &github.RepositoryListOptions{
 				ListOptions: github.ListOptions{
 					Page:    i,
 					PerPage: 50,
@@ -82,7 +82,7 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []g
 			for {
 				i++
 
-				data, _ := grace.Must2(client.Repositories.ListByOrg(ctx, orgName, &github.RepositoryListByOrgOptions{
+				data, _ := rg.Must2(client.Repositories.ListByOrg(ctx, orgName, &github.RepositoryListByOrgOptions{
 					ListOptions: github.ListOptions{
 						Page:    i,
 						PerPage: 50,

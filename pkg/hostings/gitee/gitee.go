@@ -5,7 +5,8 @@ import (
 	"errors"
 	"github.com/go-resty/resty/v2"
 	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/grace"
+	"github.com/guoyk93/rg"
+	"golang.org/x/exp/maps"
 	"path/filepath"
 	"sort"
 	"strconv"
@@ -99,7 +100,7 @@ func (c *ListService[T]) Invoke(ctx context.Context, fn func(r *resty.Request) (
 type Hosting struct{}
 
 func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []gitdump.HostingRepo, err error) {
-	defer grace.Guard(&err)
+	defer rg.Guard(&err)
 
 	opts.MustUsername()
 	opts.MustPassword()
@@ -118,7 +119,7 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []g
 	repos := map[string]Repo{}
 
 	{
-		userRepos := grace.Must(client.GetUserRepos(ctx))
+		userRepos := rg.Must(client.GetUserRepos(ctx))
 
 		for _, repo := range userRepos {
 			repos[repo.FullName] = repo
@@ -126,11 +127,11 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []g
 	}
 
 	{
-		orgs := grace.Must(client.GetOrgs(ctx))
+		orgs := rg.Must(client.GetOrgs(ctx))
 
 		for _, org := range orgs {
 
-			orgRepos := grace.Must(client.GetOrgRepos(ctx, org.Login))
+			orgRepos := rg.Must(client.GetOrgRepos(ctx, org.Login))
 
 			for _, repo := range orgRepos {
 				repos[repo.FullName] = repo
@@ -138,7 +139,7 @@ func (h Hosting) List(ctx context.Context, opts gitdump.HostingOptions) (out []g
 		}
 	}
 
-	names := grace.MapKeys(repos)
+	names := maps.Keys(repos)
 	sort.Strings(names)
 
 	for _, name := range names {

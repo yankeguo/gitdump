@@ -81,7 +81,6 @@ func MirrorGit(ctx context.Context, opts MirrorGitOptions) (err error) {
 			ctx,
 			"git",
 			"fetch",
-			"-v",
 			"-t",
 			"-f",
 			upstream.String(),
