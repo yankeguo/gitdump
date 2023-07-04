@@ -69,7 +69,10 @@ func main() {
 	rg.Must0(defaults.Set(&opts))
 	rg.Must0(validator.New().Struct(&opts))
 
-	var tasksOptions []gitdump.MirrorGitOptions
+	var (
+		tasksOptions []gitdump.MirrorGitOptions
+		duplicated   = map[string]struct{}{}
+	)
 
 	for i, account := range opts.Accounts {
 		var name string
@@ -100,6 +103,11 @@ func main() {
 		}
 
 		for _, repo := range repos {
+			if _, ok := duplicated[repo.URL]; ok {
+				continue
+			}
+			duplicated[repo.URL] = struct{}{}
+
 			log.Println("found:", repo.URL)
 
 			tasksOptions = append(tasksOptions, gitdump.MirrorGitOptions{
