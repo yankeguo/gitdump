@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"crypto/md5"
+	"encoding/base64"
+	"encoding/hex"
 	"errors"
 	"flag"
 	"fmt"
@@ -72,7 +75,14 @@ func main() {
 	var (
 		tasksOptions []gitdump.MirrorGitOptions
 		duplicated   = map[string]struct{}{}
+		askPassFiles []string
 	)
+
+	defer func() {
+		for _, askPassFile := range askPassFiles {
+			_ = os.Remove(askPassFile)
+		}
+	}()
 
 	for i, account := range opts.Accounts {
 		var name string
@@ -90,6 +100,24 @@ func main() {
 			err = errors.New("hosting not supported: " + account.Vendor)
 			return
 		}
+
+		// create askPass script
+		askPassDigest := md5.Sum([]byte(account.Vendor + account.URL + account.Username + account.Password))
+		askPassFile := filepath.Join(os.TempDir(), "gitdumpcredentials-"+hex.EncodeToString(askPassDigest[:])+".sh")
+		askPassFiles = append(askPassFiles, askPassFile)
+
+		rg.Must0(
+			os.WriteFile(
+				askPassFile,
+				[]byte(
+					fmt.Sprintf(
+						"#!/bin/sh\necho '%s' | base64 -d",
+						base64.StdEncoding.EncodeToString([]byte(account.Password)),
+					),
+				),
+				0755,
+			),
+		)
 
 		var repos []gitdump.HostingRepo
 		if repos, err = hosting.List(ctx, gitdump.HostingOptions{
@@ -111,10 +139,10 @@ func main() {
 			log.Println("found:", repo.URL)
 
 			tasksOptions = append(tasksOptions, gitdump.MirrorGitOptions{
-				Dir:      filepath.Join(opts.Dir, repo.SubDir),
-				URL:      repo.URL,
-				Username: repo.Username,
-				Password: repo.Password,
+				Dir:         filepath.Join(opts.Dir, repo.SubDir),
+				URL:         repo.URL,
+				Username:    repo.Username,
+				AskPassFile: askPassFile,
 			})
 		}
 	}

@@ -2,23 +2,18 @@ package gitdump
 
 import (
 	"context"
-	"crypto/md5"
-	"encoding/base64"
-	"encoding/hex"
-	"fmt"
 	"github.com/guoyk93/rg"
 	"log"
 	"net/url"
 	"os"
 	"os/exec"
-	"path/filepath"
 )
 
 type MirrorGitOptions struct {
-	Dir      string
-	URL      string
-	Username string
-	Password string
+	Dir         string
+	URL         string
+	Username    string
+	AskPassFile string
 }
 
 func MirrorGit(ctx context.Context, opts MirrorGitOptions) (err error) {
@@ -59,24 +54,6 @@ func MirrorGit(ctx context.Context, opts MirrorGitOptions) (err error) {
 		upstream.User = url.User(opts.Username)
 	}
 
-	// create askPass script
-	urlDigest := md5.Sum([]byte(opts.URL))
-	credentialScript := filepath.Join(os.TempDir(), "gitdumpcredentials-"+hex.EncodeToString(urlDigest[:])+".sh")
-	defer os.RemoveAll(credentialScript)
-
-	rg.Must0(
-		os.WriteFile(
-			credentialScript,
-			[]byte(
-				fmt.Sprintf(
-					"#!/bin/sh\necho '%s' | base64 -d",
-					base64.StdEncoding.EncodeToString([]byte(opts.Password)),
-				),
-			),
-			0755,
-		),
-	)
-
 	// fetch all refs
 	{
 		cmd := exec.CommandContext(
@@ -88,7 +65,7 @@ func MirrorGit(ctx context.Context, opts MirrorGitOptions) (err error) {
 			upstream.String(),
 			"+refs/*:refs/*",
 		)
-		cmd.Env = append(os.Environ(), "GIT_ASKPASS="+credentialScript)
+		cmd.Env = append(os.Environ(), "GIT_ASKPASS="+opts.AskPassFile)
 		cmd.Dir = opts.Dir
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
