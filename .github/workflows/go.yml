@@ -1,0 +1,35 @@
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      env:
+        TEST_CODING_URL: ${{ secrets.TEST_CODING_URL }}
+        TEST_CODING_USERNAME: ${{ secrets.TEST_CODING_USERNAME }}
+        TEST_CODING_PASSWORD: ${{ secrets.TEST_CODING_PASSWORD }}
+        TEST_GITEA_URL: ${{ secrets.TEST_GITEA_URL }}
+        TEST_GITEA_USERNAME: ${{ secrets.TEST_GITEA_USERNAME }}
+        TEST_GITEA_PASSWORD: ${{ secrets.TEST_GITEA_PASSWORD }}
+        TEST_GITEE_USERNAME: ${{ secrets.TEST_GITEE_USERNAME }}
+        TEST_GITEE_PASSWORD: ${{ secrets.TEST_GITEE_PASSWORD }}
+        TEST_GITHUB_USERNAME: ${{ secrets.TEST_GITHUB_USERNAME }}
+        TEST_GITHUB_PASSWORD: ${{ secrets.TEST_GITHUB_PASSWORD }}
+      run: go test -v ./...
