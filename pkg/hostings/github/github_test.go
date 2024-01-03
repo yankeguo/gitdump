@@ -2,13 +2,14 @@ package github
 
 import (
 	"context"
-	"github.com/guoyk93/gitdump"
-	"github.com/stretchr/testify/require"
 	"math/rand"
 	"os"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
+	"github.com/yankeguo/gitdump"
 )
 
 func TestHosting_List(t *testing.T) {

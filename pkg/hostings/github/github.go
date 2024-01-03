@@ -2,12 +2,13 @@ package github
 
 import (
 	"context"
-	"github.com/google/go-github/v47/github"
-	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/rg"
-	"golang.org/x/oauth2"
 	"path/filepath"
 	"strings"
+
+	"github.com/google/go-github/v47/github"
+	"github.com/yankeguo/gitdump"
+	"github.com/yankeguo/rg"
+	"golang.org/x/oauth2"
 )
 
 func init() {

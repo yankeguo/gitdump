@@ -1,9 +1,9 @@
 package hostings
 
 import (
-	_ "github.com/guoyk93/gitdump/pkg/hostings/bitbucket"
-	_ "github.com/guoyk93/gitdump/pkg/hostings/coding"
-	_ "github.com/guoyk93/gitdump/pkg/hostings/gitea"
-	_ "github.com/guoyk93/gitdump/pkg/hostings/gitee"
-	_ "github.com/guoyk93/gitdump/pkg/hostings/github"
+	_ "github.com/yankeguo/gitdump/pkg/hostings/bitbucket"
+	_ "github.com/yankeguo/gitdump/pkg/hostings/coding"
+	_ "github.com/yankeguo/gitdump/pkg/hostings/gitea"
+	_ "github.com/yankeguo/gitdump/pkg/hostings/gitee"
+	_ "github.com/yankeguo/gitdump/pkg/hostings/github"
 )

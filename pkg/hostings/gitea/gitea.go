@@ -3,15 +3,16 @@ package gitea
 import (
 	"context"
 	"errors"
-	"github.com/go-resty/resty/v2"
-	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/rg"
-	"golang.org/x/exp/maps"
 	"net/url"
 	"path/filepath"
 	"sort"
 	"strconv"
 	"strings"
+
+	"github.com/go-resty/resty/v2"
+	"github.com/yankeguo/gitdump"
+	"github.com/yankeguo/rg"
+	"golang.org/x/exp/maps"
 )
 
 type M = map[string]any

@@ -4,7 +4,7 @@ WORKDIR /go/src/app
 ADD . .
 RUN go build -o /gitdump ./cmd/gitdump
 
-FROM guoyk/minit:1.11.1 AS minit
+FROM yankeguo/minit:1.11.1 AS minit
 
 FROM alpine:3.18
 

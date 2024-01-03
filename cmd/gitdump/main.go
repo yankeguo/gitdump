@@ -8,12 +8,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/creasty/defaults"
-	"github.com/go-playground/validator/v10"
-	"github.com/guoyk93/conc"
-	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/rg"
-	"gopkg.in/yaml.v3"
 	"log"
 	"os"
 	"os/signal"
@@ -21,7 +15,14 @@ import (
 	"sync/atomic"
 	"syscall"
 
-	_ "github.com/guoyk93/gitdump/pkg/hostings"
+	"github.com/creasty/defaults"
+	"github.com/go-playground/validator/v10"
+	"github.com/yankeguo/conc"
+	"github.com/yankeguo/gitdump"
+	"github.com/yankeguo/rg"
+	"gopkg.in/yaml.v3"
+
+	_ "github.com/yankeguo/gitdump/pkg/hostings"
 )
 
 type Options struct {

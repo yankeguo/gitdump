@@ -2,15 +2,16 @@ package gitea
 
 import (
 	"context"
-	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/rg"
-	"github.com/stretchr/testify/require"
 	"math/rand"
 	"net/url"
 	"os"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
+	"github.com/yankeguo/gitdump"
+	"github.com/yankeguo/rg"
 )
 
 func TestHosting_List(t *testing.T) {

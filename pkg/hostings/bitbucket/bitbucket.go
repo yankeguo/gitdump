@@ -2,12 +2,13 @@ package bitbucket
 
 import (
 	"context"
-	"github.com/go-resty/resty/v2"
-	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/rg"
 	"log"
 	"path/filepath"
 	"strings"
+
+	"github.com/go-resty/resty/v2"
+	"github.com/yankeguo/gitdump"
+	"github.com/yankeguo/rg"
 )
 
 func init() {

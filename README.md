@@ -1,6 +1,6 @@
 # gitdump
 
-![workflow badge](https://github.com/guoyk93/gitdump/actions/workflows/go.yml/badge.svg) [![Go Reference](https://pkg.go.dev/badge/github.com/guoyk93/gitdump.svg)](https://pkg.go.dev/github.com/guoyk93/gitdump)
+![workflow badge](https://github.com/yankeguo/gitdump/actions/workflows/go.yml/badge.svg) [![Go Reference](https://pkg.go.dev/badge/github.com/yankeguo/gitdump.svg)](https://pkg.go.dev/github.com/yankeguo/gitdump)
 
 A tool for dumping hosted git repositories to local in batch.
 
@@ -58,7 +58,7 @@ accounts:
 
 ## Container Image
 
-Check [GitHub Packages](https://github.com/guoyk93/gitdump/pkgs/container/gitdump) for available container images
+Check [GitHub Packages](https://github.com/yankeguo/gitdump/pkgs/container/gitdump) for available container images
 
 Check [Dockerfile](Dockerfile) for details
 
@@ -73,10 +73,6 @@ Execution result will be delivered to environment variable `$NOTIFY_URL`, if giv
 ```
 {"text": "MESSAGE..."}
 ```
-
-## Donation
-
-View https://guoyk.xyz/donation
 
 ## Credits
 

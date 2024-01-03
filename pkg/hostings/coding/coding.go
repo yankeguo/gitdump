@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/go-resty/resty/v2"
-	"github.com/guoyk93/gitdump"
-	"github.com/guoyk93/rg"
 	"log"
 	"net/url"
 	"path/filepath"
+
+	"github.com/go-resty/resty/v2"
+	"github.com/yankeguo/gitdump"
+	"github.com/yankeguo/rg"
 )
 
 type M = map[string]any

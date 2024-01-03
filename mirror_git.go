@@ -2,11 +2,12 @@ package gitdump
 
 import (
 	"context"
-	"github.com/guoyk93/rg"
 	"log"
 	"net/url"
 	"os"
 	"os/exec"
+
+	"github.com/yankeguo/rg"
 )
 
 type MirrorGitOptions struct {
