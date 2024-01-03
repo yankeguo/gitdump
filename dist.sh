@@ -10,7 +10,7 @@ EXECUTABLE_NAME="gitdump"
 
 build() {
   rm -rf build && mkdir build
-  GOOS=${1} GOARCH=${2} go build -o "build/${EXECUTABLE_NAME}${3}"
+  GOOS=${1} GOARCH=${2} go build -o "build/${EXECUTABLE_NAME}${3}" "./cmd/${EXECUTABLE_NAME}"
   tar -czvf "dist/${EXECUTABLE_NAME}-${1}-${2}.tar.gz" --exclude ".*" -C build "${EXECUTABLE_NAME}${3}"
   rm -rf build
 }
