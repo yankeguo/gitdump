@@ -1,10 +1,10 @@
-FROM golang:1.19 AS builder
+FROM golang:1.21 AS builder
 ENV CGO_ENABLED 0
 WORKDIR /go/src/app
 ADD . .
 RUN go build -o /gitdump ./cmd/gitdump
 
-FROM yankeguo/minit:1.11.1 AS minit
+FROM yankeguo/minit:1.13.0 AS minit
 
 FROM alpine:3.18
 
